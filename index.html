@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>高速公路冲刺</title>
+<style>
+body{
+margin:0;
+overflow:hidden;
+background:#222;
+}
+canvas{
+display:block;
+background:#666;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="game"></canvas>
+
+<script>
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+function resize(){
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+}
+resize();
+window.onresize=resize;
+
+let car={
+x:window.innerWidth/2-20,
+y:window.innerHeight-120,
+w:40,
+h:80
+};
+
+document.addEventListener("touchmove",e=>{
+car.x=e.touches[0].clientX-car.w/2;
+});
+
+function drawRoad(){
+ctx.fillStyle="#555";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.strokeStyle="white";
+ctx.lineWidth=6;
+
+for(let y=0;y<canvas.height;y+=40){
+ctx.beginPath();
+ctx.moveTo(canvas.width/2,y);
+ctx.lineTo(canvas.width/2,y+20);
+ctx.stroke();
+}
+}
+
+function drawCar(){
+ctx.fillStyle="red";
+ctx.fillRect(car.x,car.y,car.w,car.h);
+}
+
+function game(){
+drawRoad();
+drawCar();
+requestAnimationFrame(game);
+}
+game();
+</script>
+
+</body>
+</html>
